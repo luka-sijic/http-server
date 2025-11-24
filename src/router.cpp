@@ -9,11 +9,12 @@ void Router::get(const std::string& path, Handler func) {
     std::cout << "Registered route: " << path << std::endl;
 }
 
-void Router::serve(const std::string& path) {
+void Router::serve(int client_fd, const std::string& path) {
+    Response res(client_fd);
     std::cout << "Path Requested: " << path << std::endl;
     if (routes.find(path) != routes.end()) {
-        routes[path](path);
+        routes[path](path, res);
     } else {
-        std::cout << "404 Not Found" << std::endl;
+        res.send("404 Not Found");
     }
 }

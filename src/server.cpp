@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <cstring>
 #include <vector>
+#include <string_view>
 #include <cstdio>
 #include <sys/socket.h>
 #include <sys/event.h>
@@ -106,12 +107,12 @@ void Server::HandleClientEvent(int kq, int client_fd) {
   }
 
   std::cout << buffer.data() << std::endl;
-  std::string request(buffer.data(), nread);
+  std::string_view request(buffer.data(), nread);
 
-  auto req = Parser::parse(request);
+  auto req = Parser::parse(std::string(request));
 
   if (this->router_) {
-    this->router_->serve(req.path);
+    this->router_->serve(client_fd, std::string(req.path));
   }
 
   close(client_fd);

@@ -3,8 +3,9 @@
 #include <functional>
 #include <iostream>
 #include <unordered_map>
+#include "response.hpp"
 
-using Handler = std::function<void(std::string)>;
+using Handler = std::function<void(const std::string&, Response&)>;
 
 class Router {
 private:
@@ -13,5 +14,5 @@ public:
     Router();
 
     void get(const std::string&path, Handler func);
-    void serve(const std::string& path);
+    void serve(int client_fd, const std::string& path);
 };

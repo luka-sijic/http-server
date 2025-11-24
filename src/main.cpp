@@ -3,7 +3,7 @@
 #include "server.h"
 #include "router.h"
 
-void homeHandler(std::string req);
+void homeHandler(const std::string& req, Response& res);
 
 int main() {
 
@@ -13,10 +13,11 @@ int main() {
   
   Server s(router.get());
   s.Run();
-  
+
   return 0;
 }
 
-void homeHandler(std::string req) {
+void homeHandler(const std::string& req, Response& res) {
   std::cout << "Test" << std::endl;
+  res.send("Hello from home handler");
 }
