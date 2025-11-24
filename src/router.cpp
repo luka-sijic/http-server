@@ -9,6 +9,11 @@ void Router::get(const std::string& path, Handler func) {
     std::cout << "Registered route: " << path << std::endl;
 }
 
+void Router::post(const std::string& path, Handler func) {
+    routes[path] = func;
+    std::cout << "Registered route: " << path << std::endl;
+}
+
 void Router::serve(int client_fd, const std::string& path) {
     Response res(client_fd);
     std::cout << "Path Requested: " << path << std::endl;

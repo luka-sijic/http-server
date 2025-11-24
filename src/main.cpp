@@ -2,14 +2,14 @@
 #include <memory>
 #include "server.h"
 #include "router.h"
-
-void homeHandler(const std::string& req, Response& res);
+#include "handlers.hpp"
 
 int main() {
 
   auto router = std::make_unique<Router>();
 
-  router->get("/", homeHandler);
+  router->get("/", Handlers::handleRoot);
+  router->post("/", Handlers::handlePost);
   
   Server s(router.get());
   s.Run();
@@ -17,7 +17,3 @@ int main() {
   return 0;
 }
 
-void homeHandler(const std::string& req, Response& res) {
-  std::cout << "Test" << std::endl;
-  res.send("Hello from home handler");
-}
